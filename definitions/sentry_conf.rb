@@ -27,8 +27,7 @@ define :sentry_conf,
        :settings => {} do
 
   Chef::Log.info("Making sentry config for: #{params[:name]}")
-  include_recipe "python::virtualenv"
-  include_recipe "python::pip"
+  include_recipe "python"
   include_recipe "sentry::default"
 
   virtualenv_dir = params[:virtualenv_dir] or node["sentry"]["virtulenv"]
@@ -92,6 +91,8 @@ define :sentry_conf,
       end
     elsif db_options['ENGINE'] == 'django.db.backends.oracle'
       driver_name = 'cx_Oracle'
+    elsif db_options['ENGINE'] == 'django.db.backends.sqlite3'
+      # noop
     else
       raise "You need specify database ENGINE"
     end

@@ -1,0 +1,21 @@
+---
+driver:
+  name: vagrant
+  network:
+    - ["forwarded_port", {guest: 9000, host: 9000}]
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-12.04
+    run_list:
+      - recipe[apt]
+  - name: centos-6.4
+    run_list:
+      - recipe[yum]
+
+suites:
+  - name: default
+    run_list:
+      - recipe[sentry::instance]
